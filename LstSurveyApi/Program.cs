@@ -13,6 +13,16 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddDbContext<SurveyContext>(ServiceLifetime.Scoped);
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOrigins",
+           builder =>
+           {
+               builder.AllowAnyOrigin()
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+           });
+        });
 
         var app = builder.Build();
 
@@ -22,6 +32,7 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        app.UseCors("AllowAllOrigins");
 
         app.UseHttpsRedirection();
 
