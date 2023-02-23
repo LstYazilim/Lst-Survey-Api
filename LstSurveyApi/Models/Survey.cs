@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace LstSurveyApi.Models;
 
-[Table("Survey", Schema = "skyPeople")]
 public partial class Survey
 {
+    [JsonPropertyName("survey_id")]
+    public int SurveyId { get; set; }
 
-    [JsonPropertyName("Id")]
-    public int Id { get; set; }
+    [JsonPropertyName("survey_name")]
+    public string? SurveyName { get; set; }
 
-    [JsonPropertyName("QuestionId")]
+    [JsonPropertyName("survey_date")]
+    public DateTime? SurveyDate { get; set; }
 
-    public int QuestionId { get; set; }
+    [JsonPropertyName("create_date")]
+    public DateTime? CreateDate { get; set; }
 
-    [JsonPropertyName("Question")]
+    [JsonPropertyName("update_date")]
+    public DateTime? UpdateDate { get; set; }
 
-    public string? Question { get; set; }
+    [JsonPropertyName("creater_user")]
+    public string? CreaterUser { get; set; }
 
-    [JsonPropertyName("Option1")]
+    [JsonPropertyName("updater_user")]
+    public string? UpdaterUser { get; set; }
 
-    public string? Option1 { get; set; }
+    public virtual ICollection<QuestionUnitSurvey> QuestionUnitSurveys { get; } = new List<QuestionUnitSurvey>();
 
-    [JsonPropertyName("Option2")]
-
-    public string? Option2 { get; set; }
-
-    [JsonPropertyName("Option3")]
-
-    public string? Option3 { get; set; }
+    public virtual ICollection<SurveyUser> SurveyUsers { get; } = new List<SurveyUser>();
 }

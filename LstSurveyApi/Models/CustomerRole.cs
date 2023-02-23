@@ -27,8 +27,6 @@ public partial class CustomerRole
 
     public int PurchasedWithProductId { get; set; }
 
-    public virtual ICollection<AclRecord> AclRecords { get; } = new List<AclRecord>();
-
     public virtual ICollection<TierPrice> TierPrices { get; } = new List<TierPrice>();
 
     public virtual ICollection<Customer> Customers { get; } = new List<Customer>();

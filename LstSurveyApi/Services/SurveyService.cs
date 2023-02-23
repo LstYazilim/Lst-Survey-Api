@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace LstSurveyApi.Controllers
+namespace LstSurveyApi.Services
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -38,13 +38,13 @@ namespace LstSurveyApi.Controllers
         {
             _context.Surveys.Add(survey);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetSurvey), new { id = survey.Id }, survey);
+            return CreatedAtAction(nameof(GetSurvey), new { id = survey.SurveyId }, survey);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateSurvey(int id, Survey survey)
         {
-            if (id != survey.Id)
+            if (id != survey.SurveyId)
             {
                 return BadRequest();
             }
