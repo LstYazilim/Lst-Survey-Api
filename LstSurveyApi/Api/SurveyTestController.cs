@@ -19,7 +19,7 @@ namespace LstSurveyApi.Api
 
         // GET api/<SurveyTestController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get(int SurveyId)
         {
             return "value";
         }
@@ -32,13 +32,13 @@ namespace LstSurveyApi.Api
 
         // PUT api/<SurveyTestController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int SurveyId, [FromBody] string value)
         {
         }
 
         // DELETE api/<SurveyTestController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(int SurveyId)
         {
         }
     }

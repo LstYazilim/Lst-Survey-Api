@@ -4,18 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LstSurveyApi.Models;
 
-public partial class Halk1342OHalk061020Context : DbContext
+public partial class MyDatabaseContext : DbContext
 {
-    public Halk1342OHalk061020Context()
+    public MyDatabaseContext()
     {
     }
 
-    public Halk1342OHalk061020Context(DbContextOptions<Halk1342OHalk061020Context> options)
+    public MyDatabaseContext(DbContextOptions<MyDatabaseContext> options)
         : base(options)
     {
     }
-
-    public virtual DbSet<AclRecord> AclRecords { get; set; }
 
     public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
 
@@ -121,8 +119,6 @@ public partial class Halk1342OHalk061020Context : DbContext
 
     public virtual DbSet<MigrationVersionInfo> MigrationVersionInfos { get; set; }
 
-    public virtual DbSet<Müşteriler> Müşterilers { get; set; }
-
     public virtual DbSet<News> News { get; set; }
 
     public virtual DbSet<NewsComment> NewsComments { get; set; }
@@ -181,6 +177,10 @@ public partial class Halk1342OHalk061020Context : DbContext
 
     public virtual DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
 
+    public virtual DbSet<Question> Questions { get; set; }
+
+    public virtual DbSet<QuestionUnitSurvey> QuestionUnitSurveys { get; set; }
+
     public virtual DbSet<QueuedEmail> QueuedEmails { get; set; }
 
     public virtual DbSet<RecurringPayment> RecurringPayments { get; set; }
@@ -233,7 +233,7 @@ public partial class Halk1342OHalk061020Context : DbContext
 
     public virtual DbSet<Survey> Surveys { get; set; }
 
-    public virtual DbSet<Table1> Table1s { get; set; }
+    public virtual DbSet<SurveyUser> SurveyUsers { get; set; }
 
     public virtual DbSet<TaxCategory> TaxCategories { get; set; }
 
@@ -243,7 +243,11 @@ public partial class Halk1342OHalk061020Context : DbContext
 
     public virtual DbSet<TopicTemplate> TopicTemplates { get; set; }
 
+    public virtual DbSet<Unit> Units { get; set; }
+
     public virtual DbSet<UrlRecord> UrlRecords { get; set; }
+
+    public virtual DbSet<UserAnswer> UserAnswers { get; set; }
 
     public virtual DbSet<Vendor> Vendors { get; set; }
 
@@ -256,26 +260,12 @@ public partial class Halk1342OHalk061020Context : DbContext
     public virtual DbSet<Warehouse> Warehouses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=37.230.108.246;Database=halk1342_oHalk061020;User ID=skyPeople;Password=pG7@39b@;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("skyPeople");
-
-        modelBuilder.Entity<AclRecord>(entity =>
-        {
-            entity.ToTable("AclRecord", "dbo");
-
-            entity.HasIndex(e => e.CustomerRoleId, "IX_AclRecord_CustomerRoleId");
-
-            entity.HasIndex(e => new { e.EntityId, e.EntityName }, "IX_AclRecord_EntityId_EntityName");
-
-            entity.Property(e => e.EntityName).HasMaxLength(400);
-
-            //entity.HasOne(d => d.CustomerRole).WithMany(p => p.AclRecords)
-              //  .HasForeignKey(d => d.CustomerRoleId)
-               // .HasConstraintName("FK_AclRecord_CustomerRoleId_CustomerRole_Id");
-        });
 
         modelBuilder.Entity<ActivityLog>(entity =>
         {
@@ -1044,23 +1034,6 @@ public partial class Halk1342OHalk061020Context : DbContext
             entity.Property(e => e.Description).HasMaxLength(1024);
         });
 
-        modelBuilder.Entity<Müşteriler>(entity =>
-        {
-            entity.HasKey(e => e.MüşteriId).HasName("PK__Müşteril__8F1B3EFDB9152181");
-
-            entity.ToTable("Müşteriler");
-
-            entity.HasIndex(e => e.Email, "UQ__Müşteril__A9D10534AABF304D").IsUnique();
-
-            entity.Property(e => e.MüşteriId)
-                .ValueGeneratedNever()
-                .HasColumnName("MüşteriID");
-            entity.Property(e => e.Ad).HasMaxLength(50);
-            entity.Property(e => e.DoğumTarihi).HasColumnType("date");
-            entity.Property(e => e.Email).HasMaxLength(100);
-            entity.Property(e => e.Soyad).HasMaxLength(50);
-        });
-
         modelBuilder.Entity<News>(entity =>
         {
             entity.ToTable("News", "dbo");
@@ -1601,6 +1574,61 @@ public partial class Halk1342OHalk061020Context : DbContext
                 .HasConstraintName("FK_ProductWarehouseInventory_WarehouseId_Warehouse_Id");
         });
 
+        modelBuilder.Entity<Question>(entity =>
+        {
+            entity.HasKey(e => e.QuestionId).HasName("PK__question__2EC215490DA5C9D5");
+
+            entity.ToTable("question");
+
+            entity.Property(e => e.QuestionId)
+                .ValueGeneratedNever()
+                .HasColumnName("question_id");
+            entity.Property(e => e.CreateDate)
+                .HasColumnType("date")
+                .HasColumnName("create_date");
+            entity.Property(e => e.CreaterUser)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("creater_user");
+            entity.Property(e => e.QuestionText)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("question_text");
+            entity.Property(e => e.UpdateDate)
+                .HasColumnType("date")
+                .HasColumnName("update_date");
+            entity.Property(e => e.UpdaterUser)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("updater_user");
+        });
+
+        modelBuilder.Entity<QuestionUnitSurvey>(entity =>
+        {
+            entity.HasKey(e => new { e.QuestionId, e.UnitId, e.SurveyId }).HasName("PK__question__456523EE47ABBBBD");
+
+            entity.ToTable("question_unit_survey");
+
+            entity.Property(e => e.QuestionId).HasColumnName("question_id");
+            entity.Property(e => e.UnitId).HasColumnName("unit_id");
+            entity.Property(e => e.SurveyId).HasColumnName("survey_id");
+
+            entity.HasOne(d => d.Question).WithMany(p => p.QuestionUnitSurveys)
+                .HasForeignKey(d => d.QuestionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__question___quest__59C61FAD");
+
+            entity.HasOne(d => d.Survey).WithMany(p => p.QuestionUnitSurveys)
+                .HasForeignKey(d => d.SurveyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__question___surve__5BAE681F");
+
+            entity.HasOne(d => d.Unit).WithMany(p => p.QuestionUnitSurveys)
+                .HasForeignKey(d => d.UnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__question___unit___5ABA43E6");
+        });
+
         modelBuilder.Entity<QueuedEmail>(entity =>
         {
             entity.ToTable("QueuedEmail", "dbo");
@@ -1901,27 +1929,58 @@ public partial class Halk1342OHalk061020Context : DbContext
 
         modelBuilder.Entity<Survey>(entity =>
         {
-            entity.ToTable("Survey");
+            entity.HasKey(e => e.SurveyId).HasName("PK__survey__9DC31A077F393068");
 
-           
+            entity.ToTable("survey");
+
+            entity.Property(e => e.SurveyId)
+                .ValueGeneratedNever()
+                .HasColumnName("survey_id");
+            entity.Property(e => e.CreateDate)
+                .HasColumnType("date")
+                .HasColumnName("create_date");
+            entity.Property(e => e.CreaterUser)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("creater_user");
+            entity.Property(e => e.SurveyDate)
+                .HasColumnType("date")
+                .HasColumnName("survey_date");
+            entity.Property(e => e.SurveyName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("survey_name");
+            entity.Property(e => e.UpdateDate)
+                .HasColumnType("date")
+                .HasColumnName("update_date");
+            entity.Property(e => e.UpdaterUser)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("updater_user");
         });
 
-        modelBuilder.Entity<Table1>(entity =>
+        modelBuilder.Entity<SurveyUser>(entity =>
         {
-            entity.ToTable("Table_1");
+            entity.HasKey(e => e.UserId).HasName("PK__survey_u__B9BE370F394F6005");
 
-            entity.Property(e => e.Id)
+            entity.ToTable("survey_user");
+
+            entity.Property(e => e.UserId)
                 .ValueGeneratedNever()
-                .HasColumnName("id");
-            entity.Property(e => e.Email)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("email");
-            entity.Property(e => e.Password)
-                .HasMaxLength(10)
+                .HasColumnName("user_id");
+            entity.Property(e => e.SurveyId).HasColumnName("survey_id");
+            entity.Property(e => e.UserName)
+                .HasMaxLength(50)
                 .IsUnicode(false)
-                .IsFixedLength()
-                .HasColumnName("password");
+                .HasColumnName("user_name");
+            entity.Property(e => e.UserPassword)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("user_password");
+
+            entity.HasOne(d => d.Survey).WithMany(p => p.SurveyUsers)
+                .HasForeignKey(d => d.SurveyId)
+                .HasConstraintName("FK__survey_us__surve__3F122971");
         });
 
         modelBuilder.Entity<TaxCategory>(entity =>
@@ -1964,6 +2023,21 @@ public partial class Halk1342OHalk061020Context : DbContext
             entity.Property(e => e.ViewPath).HasMaxLength(400);
         });
 
+        modelBuilder.Entity<Unit>(entity =>
+        {
+            entity.HasKey(e => e.UnitId).HasName("PK__unit__D3AF5BD73E5A3AD9");
+
+            entity.ToTable("unit");
+
+            entity.Property(e => e.UnitId)
+                .ValueGeneratedNever()
+                .HasColumnName("unit_id");
+            entity.Property(e => e.UnitName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("unit_name");
+        });
+
         modelBuilder.Entity<UrlRecord>(entity =>
         {
             entity.ToTable("UrlRecord", "dbo");
@@ -1974,6 +2048,26 @@ public partial class Halk1342OHalk061020Context : DbContext
 
             entity.Property(e => e.EntityName).HasMaxLength(400);
             entity.Property(e => e.Slug).HasMaxLength(400);
+        });
+
+        modelBuilder.Entity<UserAnswer>(entity =>
+        {
+            entity.HasKey(e => e.AnswerId).HasName("PK__user_ans__33724318E84CD9F5");
+
+            entity.ToTable("user_answer");
+
+            entity.HasIndex(e => new { e.AnswerId, e.QuestionId, e.SurveyId }, "unique_user_answer").IsUnique();
+
+            entity.Property(e => e.AnswerId)
+                .ValueGeneratedNever()
+                .HasColumnName("answer_id");
+            entity.Property(e => e.AnswerText)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("answer_text");
+            entity.Property(e => e.QuestionId).HasColumnName("question_id");
+            entity.Property(e => e.SurveyId).HasColumnName("survey_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
         });
 
         modelBuilder.Entity<Vendor>(entity =>

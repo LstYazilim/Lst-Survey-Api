@@ -4,16 +4,13 @@ using System.Text.Json.Serialization;
 
 namespace LstSurveyApi.Models;
 
-public partial class Survey
+public partial class Question
 {
-    [JsonPropertyName("survey_id")]
-    public int SurveyId { get; set; }
+    [JsonPropertyName("question_id")]
+    public int QuestionId { get; set; }
 
-    [JsonPropertyName("survey_name")]
-    public string? SurveyName { get; set; }
-
-    [JsonPropertyName("survey_date")]
-    public DateTime? SurveyDate { get; set; }
+    [JsonPropertyName("question_text")]
+    public string? QuestionText { get; set; }
 
     [JsonPropertyName("create_date")]
     public DateTime? CreateDate { get; set; }
@@ -28,6 +25,4 @@ public partial class Survey
     public string? UpdaterUser { get; set; }
 
     public virtual ICollection<QuestionUnitSurvey> QuestionUnitSurveys { get; } = new List<QuestionUnitSurvey>();
-
-    public virtual ICollection<SurveyUser> SurveyUsers { get; } = new List<SurveyUser>();
 }
