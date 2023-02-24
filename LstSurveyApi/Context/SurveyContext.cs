@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LstSurveyApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LstSurveyApi.Models
+namespace LstSurveyApi.Context
 {
     public class SurveyContext : DbContext
     {
@@ -14,7 +15,7 @@ namespace LstSurveyApi.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+           // base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer("Server=37.230.108.246;Database=halk1342_oHalk061020;User ID=skyPeople;Password=pG7@39b@;TrustServerCertificate=True;");
 
         }
@@ -32,7 +33,7 @@ namespace LstSurveyApi.Models
             modelBuilder.Entity<Survey>()
                 .Property(s => s.SurveyId)
                 .HasColumnName("survey_id");
-                
+
 
             modelBuilder.Entity<Survey>()
                 .Property(s => s.SurveyName)

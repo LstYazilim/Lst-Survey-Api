@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LstSurveyApi.Models;
 
 public partial class QuestionUnitSurvey
 {
+    [Key]
     public int QuestionId { get; set; }
 
     public int UnitId { get; set; }
