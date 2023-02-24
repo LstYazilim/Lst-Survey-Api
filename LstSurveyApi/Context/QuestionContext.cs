@@ -15,6 +15,9 @@ namespace LstSurveyApi.Context
         }
 
         public DbSet<Question> Question { get; set; }
+        public DbSet<QuestionUnitSurvey> QuestionUnitSurvey { get; set; }
+
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -49,7 +52,15 @@ namespace LstSurveyApi.Context
                 .Property(s => s.UpdaterUser)
                 .HasColumnName("updater_user");
 
-            
+            //QuestionUnitSurvey
+            modelBuilder.Entity<QuestionUnitSurvey>()
+                .Property(s => s.QuestionId)
+                .HasColumnName("question_id");
+
+
+            modelBuilder.Entity<QuestionUnitSurvey>()
+                .Property(s => s.UnitId)
+                .HasColumnName("unit_id");
 
         }
     }

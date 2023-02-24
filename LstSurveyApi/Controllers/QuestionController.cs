@@ -1,8 +1,9 @@
 ﻿using LstSurveyApi.Context;
 using LstSurveyApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-
+using System.Linq;
 namespace LstSurveyApi.Controllers
 {
 
@@ -33,6 +34,25 @@ namespace LstSurveyApi.Controllers
             }
             return Ok(question);
         }
+        [HttpGet("{unitId}")]
+        public ActionResult<QuestionUnitSurvey> GetQuestionsByUnitId(int unitId)
+        {
+
+            var questions = _questionContext.QuestionUnitSurvey
+    .Where(qus => qus.UnitId == unitId)
+    .Select(qus => qus.Question.QuestionText)
+    .ToList();
+           
+            if (questions == null || questions.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(questions);
+        }
+
+
+
         [HttpPost]
         public ActionResult<Question> CreateQuestion(Question question)
         {
