@@ -1,4 +1,5 @@
 using LstSurveyApi.Context;
+using LstSurveyApi.Models;
 
 public class Program
 {
@@ -12,9 +13,10 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        
+        builder.Services.AddDbContext<OptionContext>(ServiceLifetime.Scoped);
         builder.Services.AddDbContext<SurveyContext>(ServiceLifetime.Scoped);
         builder.Services.AddDbContext<QuestionContext>(ServiceLifetime.Scoped); 
+        builder.Services.AddDbContext<UserContext>(ServiceLifetime.Scoped);
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAllOrigins",
