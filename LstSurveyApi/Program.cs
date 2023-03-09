@@ -1,5 +1,8 @@
 using LstSurveyApi.Context;
 using LstSurveyApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 public class Program
 {
@@ -27,7 +30,20 @@ public class Program
                       .AllowAnyMethod();
            });
         });
-
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+     .AddJwtBearer(options =>
+     {
+         options.TokenValidationParameters = new TokenValidationParameters
+         {
+             ValidateIssuer = true,
+             ValidateAudience = true,
+             ValidateLifetime = true,
+             ValidateIssuerSigningKey = true,
+             ValidIssuer = "your-issuer",
+             ValidAudience = "your-audience",
+             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key"))
+         };
+     });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -37,6 +53,8 @@ public class Program
             app.UseSwaggerUI();
         }
         app.UseCors("AllowAllOrigins");
+
+        app.UseAuthentication();
 
         app.UseHttpsRedirection();
 
