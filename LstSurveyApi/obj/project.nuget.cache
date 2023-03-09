@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zDFB4/Aw9pgWqlRbJkdpeYaX93S6Cb2O47s1pt0HFbglHRWNqJ1uCoPSevHLy/DR/BWdlm4a5H4ftMmVpf5ymQ==",
+  "dgSpecHash": "JZn0Nx747FTukn9DKsZG5ZByFndFWLDMLSyomhlHQyFQ3kAazWR45bv3uH/y08GXVx4RTK1mt46ZxesExqeYOA==",
   "success": true,
   "projectFilePath": "C:\\Users\\hakdag\\Desktop\\survey-app\\surveyyapptogether\\LST-Survey-API\\LstSurveyApi\\LstSurveyApi\\LstSurveyApi.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\hakdag\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\hakdag\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\hakdag\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\hakdag\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.14\\microsoft.aspnetcore.authentication.jwtbearer.6.0.14.nupkg.sha512",
     "C:\\Users\\hakdag\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\hakdag\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\hakdag\\.nuget\\packages\\microsoft.data.sqlclient\\5.0.1\\microsoft.data.sqlclient.5.0.1.nupkg.sha512",
