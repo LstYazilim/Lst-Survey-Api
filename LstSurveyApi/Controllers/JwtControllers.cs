@@ -41,7 +41,6 @@ namespace JwtControllers.Controllers
         }
 
         [HttpGet("secure")]
-        [Authorize]
         public IActionResult Get()
         {
             var users = _context.SurveyUser.ToList();
@@ -56,7 +55,11 @@ namespace JwtControllers.Controllers
 
         private string GenerateJSONWebToken(SurveyUser userInfo)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            if (securityKey.KeySize < 128)
+            {
+                securityKey = new SymmetricSecurityKey(new byte[16]); // Or some other method to generate a larger key
+            }
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
