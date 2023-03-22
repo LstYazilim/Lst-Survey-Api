@@ -2,8 +2,11 @@
 using LstSurveyApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+
+
+
+using static LstSurveyApi.Context.QuestionContext;
+
 namespace LstSurveyApi.Controllers
 {
 
@@ -16,6 +19,32 @@ namespace LstSurveyApi.Controllers
         public QuestionController(QuestionContext questionContext)
         {
             _questionContext = questionContext;
+        }
+        [HttpGet]
+        public async Task<ActionResult<QuestionOptionDto>> GetQuestionsWithOptions(int questionId)
+        {
+            var question = await _questionContext.Question
+                .Include(q => q.QuestionUnitSurveys)
+                .ThenInclude(qus => qus.Question)
+                .FirstOrDefaultAsync(q => q.QuestionId == questionId);
+
+            if (question == null) { return NotFound(); }
+
+            var optionsDto = question.QuestionUnitSurveys.Select(qus => qus.Question)
+                .Select(o => new OptionDto
+                {
+                    OptionText = o.QuestionText,
+                }).ToList();
+
+            var questionDto = new QuestionOptionDto
+            {
+                QuestionId = question.QuestionId,
+                QuestionText = question.QuestionText,
+                UpdaterUser = question.UpdaterUser,
+                OptionTexts = optionsDto.Select(o => o.OptionText).ToList()
+            };
+
+            return Ok(questionDto);
         }
         [HttpGet]
         public IActionResult GetQuestions() 
@@ -60,5 +89,11 @@ namespace LstSurveyApi.Controllers
                 _questionContext.SaveChanges();
             return CreatedAtAction(nameof(GetQuestions), question);
         }
+
+        
+
+
+
+
     }
 }

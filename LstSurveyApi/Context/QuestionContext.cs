@@ -17,7 +17,17 @@ namespace LstSurveyApi.Context
         public DbSet<Question> Question { get; set; }
         public DbSet<QuestionUnitSurvey> QuestionUnitSurvey { get; set; }
 
-        
+        public class QuestionOptionDto
+        {
+            public int QuestionId { get; set; }
+            public string QuestionText { get; set; }
+            public string UpdaterUser { get; set; }
+            public List<string> OptionTexts { get; set; }
+        }
+        public class OptionDto
+        {
+            public string OptionText { get; set; }
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

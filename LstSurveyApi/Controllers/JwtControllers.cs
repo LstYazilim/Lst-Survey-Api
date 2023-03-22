@@ -40,13 +40,13 @@ namespace JwtControllers.Controllers
             return response;
         }
 
-        [HttpGet("secure")]
-        public IActionResult Get()
-        {
-            var users = _context.SurveyUser.ToList();
-            return Ok(users);
-        }
 
+        [Authorize]
+        [HttpGet]
+        public IEnumerable<SurveyUser> GetUsers()
+        {
+            return _context.SurveyUser.ToList();
+        }
         private SurveyUser AuthenticateUser(SurveyUser login)
         {
             var user = _context.SurveyUser.SingleOrDefault(u => u.UserName == login.UserName && u.UserPassword == login.UserPassword);
