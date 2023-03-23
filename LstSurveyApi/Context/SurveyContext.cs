@@ -41,15 +41,18 @@ namespace LstSurveyApi.Context
 
             modelBuilder.Entity<Survey>()
                 .Property(s => s.SurveyDate)
-                .HasColumnName("survey_date");
+                .HasColumnName("survey_date")
+                .HasColumnType("smalldatetime");
 
             modelBuilder.Entity<Survey>()
                 .Property(s => s.CreateDate)
-                .HasColumnName("create_date");
+                .HasColumnName("create_date")
+                .HasColumnType("smalldatetime");
 
             modelBuilder.Entity<Survey>()
                 .Property(s => s.UpdateDate)
-                .HasColumnName("update_date");
+                .HasColumnName("update_date")
+                .HasColumnType("smalldatetime");
 
             modelBuilder.Entity<Survey>()
                 .Property(s => s.CreaterUser)

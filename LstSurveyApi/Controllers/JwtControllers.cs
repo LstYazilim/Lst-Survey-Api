@@ -40,14 +40,13 @@ namespace JwtControllers.Controllers
             return response;
         }
 
-        [HttpGet("secure")]
-        [Authorize]
-        public IActionResult Get()
-        {
-            var users = _context.SurveyUser.ToList();
-            return Ok(users);
-        }
 
+        [Authorize]
+        [HttpGet]
+        public IEnumerable<SurveyUser> GetUsers()
+        {
+            return _context.SurveyUser.ToList();
+        }
         private SurveyUser AuthenticateUser(SurveyUser login)
         {
             var user = _context.SurveyUser.SingleOrDefault(u => u.UserName == login.UserName && u.UserPassword == login.UserPassword);
@@ -56,7 +55,11 @@ namespace JwtControllers.Controllers
 
         private string GenerateJSONWebToken(SurveyUser userInfo)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            if (securityKey.KeySize < 128)
+            {
+                securityKey = new SymmetricSecurityKey(new byte[16]); // Or some other method to generate a larger key
+            }
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]

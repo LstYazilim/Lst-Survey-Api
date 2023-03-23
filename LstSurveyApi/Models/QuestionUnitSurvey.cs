@@ -15,6 +15,7 @@ public partial class QuestionUnitSurvey
     [JsonPropertyName("unit_id")]
     public int UnitId { get; set; }
 
+    [JsonPropertyName("survey_id")]
     public int SurveyId { get; set; }
 
     [ForeignKey("QuestionId")]

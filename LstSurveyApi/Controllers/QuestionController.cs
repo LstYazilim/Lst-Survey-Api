@@ -2,8 +2,8 @@
 using LstSurveyApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+using static LstSurveyApi.Context.QuestionContext;
+
 namespace LstSurveyApi.Controllers
 {
 
@@ -12,10 +12,39 @@ namespace LstSurveyApi.Controllers
     public class QuestionController : ControllerBase
     {
         private readonly QuestionContext _questionContext;
+        private readonly OptionContext _optionContext;
 
-        public QuestionController(QuestionContext questionContext)
+        public QuestionController(QuestionContext questionContext, OptionContext optionContext)
         {
             _questionContext = questionContext;
+            _optionContext = optionContext;
+        }
+        [HttpGet("{questionId}/options")]
+        public async Task<ActionResult<QuestionOptionDto>> GetQuestionsWithOptions(int questionId)
+        {
+            var question = await _questionContext.Question
+                .Include(q => q.QuestionUnitSurveys)
+                    .ThenInclude(qus => qus.Unit)
+                .FirstOrDefaultAsync(q => q.QuestionId == questionId);
+
+            if (question == null)
+            {
+                return NotFound();
+            }
+            var optionTexts = await _optionContext.Options
+                .Where(o => o.QuestionId == questionId)
+                .Select(o => o.OptionText)
+                .ToListAsync();
+
+            var dto = new QuestionOptionDto
+            {
+                QuestionId = question.QuestionId,
+                QuestionText = question.QuestionText,
+                UpdaterUser = question.UpdaterUser,
+                OptionTexts = optionTexts
+            };
+
+            return dto;
         }
         [HttpGet]
         public IActionResult GetQuestions() 
@@ -60,5 +89,11 @@ namespace LstSurveyApi.Controllers
                 _questionContext.SaveChanges();
             return CreatedAtAction(nameof(GetQuestions), question);
         }
+
+        
+
+
+
+
     }
 }

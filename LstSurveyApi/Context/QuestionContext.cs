@@ -16,8 +16,21 @@ namespace LstSurveyApi.Context
 
         public DbSet<Question> Question { get; set; }
         public DbSet<QuestionUnitSurvey> QuestionUnitSurvey { get; set; }
-
         
+
+      
+        
+        public class QuestionOptionDto
+        {
+            public int QuestionId { get; set; }
+            public string QuestionText { get; set; }
+            public string UpdaterUser { get; set; }
+            public List<string> OptionTexts { get; set; }
+        }
+        public class OptionDto
+        {
+            public string OptionText { get; set; }
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -61,6 +74,20 @@ namespace LstSurveyApi.Context
             modelBuilder.Entity<QuestionUnitSurvey>()
                 .Property(s => s.UnitId)
                 .HasColumnName("unit_id");
+
+            modelBuilder.Entity<QuestionUnitSurvey>()
+              .Property(s => s.SurveyId)
+              .HasColumnName("survey_id");
+
+            modelBuilder.Entity<Unit>()
+             .Property(u => u.UnitId)
+             .HasColumnName("unit_id");
+
+            modelBuilder.Entity<Unit>()
+            .Property(u => u.UnitName)
+            .HasColumnName("unit_name");
+
+
 
         }
     }

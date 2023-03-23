@@ -39,9 +39,9 @@ public class Program
              ValidateAudience = true,
              ValidateLifetime = true,
              ValidateIssuerSigningKey = true,
-             ValidIssuer = "your-issuer",
-             ValidAudience = "your-audience",
-             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key"))
+             ValidIssuer = "Jwt: Issuer",
+             ValidAudience = "Jwt: Audience",
+             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
          };
      });
         var app = builder.Build();
@@ -54,9 +54,9 @@ public class Program
         }
         app.UseCors("AllowAllOrigins");
 
-        app.UseAuthentication();
-
         app.UseHttpsRedirection();
+
+        app.UseAuthentication();
 
         app.UseAuthorization();
 
