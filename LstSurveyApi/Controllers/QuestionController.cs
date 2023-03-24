@@ -46,6 +46,28 @@ namespace LstSurveyApi.Controllers
 
             return dto;
         }
+        [HttpGet("options")]
+        public async Task<ActionResult<List<QuestionOptionDto>>> GetAllQuestionsWithOptions()
+        {
+            var questions = await _questionContext.Question
+                .Include(q => q.QuestionUnitSurveys)
+                    .ThenInclude(qus => qus.Unit)
+                .ToListAsync();
+
+            var optionTexts = await _optionContext.Options
+                .Select(o => new { o.QuestionId, o.OptionText })
+                .ToListAsync();
+
+            var dtoList = questions.Select(question => new QuestionOptionDto
+            {
+                QuestionId = question.QuestionId,
+                QuestionText = question.QuestionText,
+                UpdaterUser = question.UpdaterUser,
+                OptionTexts = optionTexts.Where(o => o.QuestionId == question.QuestionId).Select(o => o.OptionText).ToList()
+            }).ToList();
+
+            return dtoList;
+        }
         [HttpGet]
         public IActionResult GetQuestions() 
         {
