@@ -39,6 +39,20 @@ namespace JwtControllers.Controllers
 
             return response;
         }
+        [Authorize]
+        [HttpGet("{id}")]
+        public ActionResult<SurveyUser> GetUser(int id)
+        {
+            var user = _context.SurveyUser.FirstOrDefault(u => u.UserId == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+
+        }
 
 
         [Authorize]
@@ -70,8 +84,8 @@ namespace JwtControllers.Controllers
             };
 
             var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"],
-                audience: _config["Jwt:Audience"],
+             issuer: _config["Jwt:Issuer"],
+        audience: _config["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(_config["Jwt:ExpiryInMinutes"])),
                 signingCredentials: credentials);

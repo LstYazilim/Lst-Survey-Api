@@ -17,7 +17,7 @@ namespace LstSurveyApi.Context
         public DbSet<Question> Question { get; set; }
         public DbSet<QuestionUnitSurvey> QuestionUnitSurvey { get; set; }
         
-
+        public DbSet<Unit> Unit { get; set; }
       
         
         public class QuestionOptionDto

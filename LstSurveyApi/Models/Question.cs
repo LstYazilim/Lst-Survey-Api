@@ -25,4 +25,5 @@ public partial class Question
     public string? UpdaterUser { get; set; }
 
     public virtual ICollection<QuestionUnitSurvey> QuestionUnitSurveys { get; } = new List<QuestionUnitSurvey>();
+
 }
