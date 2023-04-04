@@ -86,23 +86,37 @@ namespace LstSurveyApi.Controllers
             return Ok(question);
         }
         [HttpGet("{unitId}")]
-        public ActionResult<QuestionUnitSurvey> GetQuestionsByUnitId(int unitId)
+        public ActionResult<List<QuestionDetails>> GetQuestionsByUnitId(int unitId)
         {
+            var questionDetails = _questionContext.QuestionUnitSurvey
+                .Where(qus => qus.UnitId == unitId)
+                .Select(qus => new QuestionDetails
+                {
+                    QuestionId = qus.QuestionId,
+                    QuestionText = qus.Question.QuestionText,
+                    UpdaterUser = qus.Question.UpdaterUser
+                })
+                .ToList();
 
-            var questions = _questionContext.QuestionUnitSurvey
-    .Where(qus => qus.UnitId == unitId)
-    .Select(qus => qus.Question.QuestionText)
-    .ToList();
-           
-            if (questions == null || questions.Count == 0)
+            // Retrieve the options and question IDs for each question
+            foreach (var question in questionDetails)
             {
-                return NotFound();
+                var questionId = _questionContext.QuestionUnitSurvey
+                    .Where(qus => qus.UnitId == unitId && qus.Question.QuestionText == question.QuestionText)
+                    .Select(qus => qus.QuestionId)
+                    .FirstOrDefault();
+
+                var options = _optionContext.Options
+                    .Where(o => o.QuestionId == questionId)
+                    .Select(o => o.OptionText)
+                    .ToList();
+
+                question.Options = options; 
+               // question.QuestionId = questionId;
             }
 
-            return Ok(questions);
+            return Ok(questionDetails);
         }
-
-
 
         [HttpPost]
         public ActionResult<Question> CreateQuestion(Question question)

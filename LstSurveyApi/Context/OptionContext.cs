@@ -13,8 +13,9 @@ namespace LstSurveyApi.Context
         { 
 
         }
-        public DbSet<Option> Options { get; set; }
 
+
+        public DbSet<Option> Options { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=37.230.108.246;Database=halk1342_oHalk061020;User ID=skyPeople;Password=pG7@39b@;TrustServerCertificate=True;");

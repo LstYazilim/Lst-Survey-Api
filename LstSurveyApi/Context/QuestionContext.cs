@@ -18,8 +18,15 @@ namespace LstSurveyApi.Context
         public DbSet<QuestionUnitSurvey> QuestionUnitSurvey { get; set; }
         
         public DbSet<Unit> Unit { get; set; }
-      
-        
+
+        public class QuestionDetails
+        {
+            public int QuestionId { get; set; }
+            public string QuestionText { get; set; }
+            public List<string> Options { get; set; }
+            public string UpdaterUser { get; set; }
+        }
+
         public class QuestionOptionDto
         {
             public int QuestionId { get; set; }
