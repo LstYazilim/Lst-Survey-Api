@@ -23,7 +23,7 @@ namespace LstSurveyApi.Context
         {
             public int QuestionId { get; set; }
             public string QuestionText { get; set; }
-            public List<string> Options { get; set; }
+            public List<string> OptionsTexts { get; set; }
             public string UpdaterUser { get; set; }
         }
 
