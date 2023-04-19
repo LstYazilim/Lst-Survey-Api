@@ -99,7 +99,6 @@ C:\Users\hakdag\Desktop\survey-app\surveyyapptogether\LST-Survey-API\LstSurveyAp
 C:\Users\hakdag\Desktop\survey-app\surveyyapptogether\LST-Survey-API\LstSurveyApi\LstSurveyApi\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\hakdag\Desktop\survey-app\surveyyapptogether\LST-Survey-API\LstSurveyApi\LstSurveyApi\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\hakdag\Desktop\survey-app\surveyyapptogether\LST-Survey-API\LstSurveyApi\LstSurveyApi\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
-C:\Users\hakdag\Desktop\survey-app\surveyyapptogether\LST-Survey-API\LstSurveyApi\LstSurveyApi\bin\Debug\net6.0\Microsoft.AspNet.Identity.Core.dll
 C:\Users\hakdag\Desktop\survey-app\surveyyapptogether\LST-Survey-API\LstSurveyApi\LstSurveyApi\bin\Debug\net6.0\Azure.Security.KeyVault.Certificates.dll
 C:\Users\hakdag\Desktop\survey-app\surveyyapptogether\LST-Survey-API\LstSurveyApi\LstSurveyApi\bin\Debug\net6.0\Azure.Security.KeyVault.Secrets.dll
 C:\Users\hakdag\Desktop\survey-app\surveyyapptogether\LST-Survey-API\LstSurveyApi\LstSurveyApi\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll

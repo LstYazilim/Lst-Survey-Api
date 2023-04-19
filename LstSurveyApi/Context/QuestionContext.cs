@@ -22,21 +22,21 @@ namespace LstSurveyApi.Context
         public class QuestionDetails
         {
             public int QuestionId { get; set; }
-            public string QuestionText { get; set; }
-            public List<string> OptionsTexts { get; set; }
-            public string UpdaterUser { get; set; }
+            public string? QuestionText { get; set; }
+            public List<string>? OptionsTexts { get; set; }
+            public string? UpdaterUser { get; set; }
         }
 
         public class QuestionOptionDto
         {
             public int QuestionId { get; set; }
-            public string QuestionText { get; set; }
-            public string UpdaterUser { get; set; }
-            public List<string> OptionTexts { get; set; }
+            public string? QuestionText { get; set; }
+            public string? UpdaterUser { get; set; }
+            public List<string>? OptionTexts { get; set; }
         }
         public class OptionDto
         {
-            public string OptionText { get; set; }
+            public string? OptionText { get; set; }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
