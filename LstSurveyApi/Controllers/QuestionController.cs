@@ -111,7 +111,7 @@ namespace LstSurveyApi.Controllers
                     .Select(o => o.OptionText)
                     .ToList();
 
-                question.Options = options; 
+                question.OptionsTexts = options; 
                // question.QuestionId = questionId;
             }
 
@@ -125,9 +125,5 @@ namespace LstSurveyApi.Controllers
                 _questionContext.SaveChanges();
             return CreatedAtAction(nameof(GetQuestions), question);
         }
-
-        
-
-
     }
 }

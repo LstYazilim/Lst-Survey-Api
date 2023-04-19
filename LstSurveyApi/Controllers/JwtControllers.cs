@@ -61,6 +61,8 @@ namespace JwtControllers.Controllers
         {
             return _context.SurveyUser.ToList();
         }
+
+
         private SurveyUser AuthenticateUser(SurveyUser login)
         {
             var user = _context.SurveyUser.SingleOrDefault(u => u.UserName == login.UserName && u.UserPassword == login.UserPassword);
